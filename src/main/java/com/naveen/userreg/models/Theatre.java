@@ -26,5 +26,4 @@ public class Theatre {
     private int diamondCapacity;
     private int platinumCapacity;
     private Long movieId;
-
 }
