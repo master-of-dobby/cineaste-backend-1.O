@@ -1,7 +1,6 @@
 package com.naveen.userreg.controllers;
 
 import com.naveen.userreg.models.AuthenticationResponse;
-import com.naveen.userreg.models.Login;
 import com.naveen.userreg.models.User;
 import com.naveen.userreg.services.AuthenticationService;
 import com.naveen.userreg.services.UserService;
@@ -10,19 +9,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
 @RestController
 //@RequestMapping("user")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
+//@CrossOrigin("http://localhost:3000")
 public class AppController {
 
     @Autowired
@@ -30,7 +26,6 @@ public class AppController {
 
     @Autowired
     private AuthenticationService authenticationService;
-
 
     @GetMapping("hello")
     public String greet(){
