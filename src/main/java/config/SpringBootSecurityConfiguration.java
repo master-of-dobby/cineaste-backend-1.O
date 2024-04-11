@@ -1,75 +1,50 @@
-package config;
-
-import com.naveen.userreg.filter.JwtAuthenticationFilter;
-import com.naveen.userreg.services.UserDetailsServiceImp;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
-public class SpringBootSecurityConfiguration  {
-
-    private final UserDetailsServiceImp userDetailsServiceImp;
-
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-
-    @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        return http
-
-                       .csrf(AbstractHttpConfigurer::disable)
-                       .authorizeHttpRequests(
-                               req -> req.requestMatchers("/login")
-                                              .permitAll()
-                                              .anyRequest()
-                                              .authenticated()
-                       )
-                       .userDetailsService(userDetailsServiceImp)
-                       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                       .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                       .build();
-
-
-    }
-
-
-
-}
-
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("test")
-//                .password("test") // Use {noop} for plain text password (for simplicity)
-//                .roles("USER");
-//    }
-
-
-
+//package config;
+//
+//import com.naveen.userreg.filter.JwtAuthenticationFilter;
+//import com.naveen.userreg.services.authservices.UserDetailsServiceImp;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+//import org.springframework.security.config.http.SessionCreationPolicy;
+//import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//import org.springframework.security.web.csrf.CsrfFilter;
+//
+//
+//@Configuration
+//@EnableWebSecurity
+//@RequiredArgsConstructor
+//public class SpringBootSecurityConfiguration  {
+//
+//    private final UserDetailsServiceImp userDetailsServiceImp;
+//
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//
+//
 //    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
+//    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//
+//        return http
+//
+//                       .csrf(AbstractHttpConfigurer::disable) // this is the problem -> it should disable, even though I made it disable, it is still giving error like not disabled
+//                       .authorizeHttpRequests(
+//                               req -> req.requestMatchers("/**")
+//                                              .permitAll()
+//                                              .anyRequest()
+//                                              .authenticated()
+//                       )
+//                       .userDetailsService(userDetailsServiceImp)
+//                       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                       .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                       .addFilterAfter(jwtAuthenticationFilter,CsrfFilter.class)
+//                       .build();
+//
+//
 //    }
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-//        return configuration.getAuthenticationManager();
-//    }
+//
+//
+//
+//}

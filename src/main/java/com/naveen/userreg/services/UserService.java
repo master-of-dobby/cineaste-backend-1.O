@@ -1,13 +1,12 @@
 package com.naveen.userreg.services;
 
-import com.naveen.userreg.models.Login;
+import com.naveen.userreg.models.AuthModels.Login;
 import com.naveen.userreg.models.User;
 import com.naveen.userreg.repos.UserRepo;
 import com.naveen.userreg.util.EmailUtil;
 import com.naveen.userreg.util.OtpUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;

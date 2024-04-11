@@ -1,4 +1,4 @@
-package com.naveen.userreg.models;
+package com.naveen.userreg.models.AuthModels;
 
 import lombok.Data;
 
