@@ -1,14 +1,14 @@
 package com.naveen.userreg.controllers;
 
-import com.naveen.userreg.models.AuthModels.AuthenticationResponse;
 import com.naveen.userreg.models.User;
 //import com.naveen.userreg.services.authservices.AuthenticationService;
 import com.naveen.userreg.services.UserService;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class AppController {
 //    private AuthenticationService authenticationService;
 
     @GetMapping("hello")
-    public String greet(){
+    public String greet() {
         return "Hello, World!";
     }
 
@@ -37,10 +37,12 @@ public class AppController {
 //        return (CsrfToken) request.getAttribute("_csrf");
 //    }
 
-//    @PostMapping("register")
-//    public ResponseEntity<AuthenticationResponse> register(@RequestBody User user) throws MessagingException {
+    @PostMapping("register")
+    public ResponseEntity<String> register(@RequestBody User user) throws MessagingException {
+//        public ResponseEntity<AuthenticationResponse> register(@RequestBody User user) throws MessagingException {
 //        return ResponseEntity.ok(authenticationService.register(user));
-//    }
+        return ResponseEntity.status(HttpStatus.OK).body(userService.addUser(user));
+    }
 
 //    @PutMapping("/verify-account")
 //    public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp){
@@ -60,12 +62,12 @@ public class AppController {
     }
 
     @GetMapping("/redirect")
-    public String getRedirect(){
+    public String getRedirect() {
         return "Redirecting to Home Page";
     }
 
     @PutMapping("/regenerate-otp")
-    public ResponseEntity<String> regenerateOtp(@RequestParam String email){
+    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
         return new ResponseEntity<>(userService.regenerateOtp(email), HttpStatus.OK);
     }
 
@@ -84,5 +86,31 @@ public class AppController {
         }
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getUser(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            ErrorResponse response = new ErrorResponse("User with ID " + id + " not found", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+
+        if (!userService.getUser(id)) {
+            ErrorResponse response = new ErrorResponse("User Id with" + id + " NOT FOUND ", HttpStatus.NOT_FOUND);
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, user));
+
+    }
+
 
 }
+

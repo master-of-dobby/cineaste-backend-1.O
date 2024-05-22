@@ -1,6 +1,7 @@
 package com.naveen.userreg.services;
 
 import com.naveen.userreg.models.AuthModels.Login;
+import com.naveen.userreg.models.AuthModels.Role;
 import com.naveen.userreg.models.User;
 import com.naveen.userreg.repos.UserRepo;
 import com.naveen.userreg.util.EmailUtil;
@@ -27,10 +28,9 @@ public class UserService {
 
     public String addUser(User user) throws MessagingException {
         String otp = otpUtil.generateOtp();
-        try{
+        try {
             emailUtil.sendOtpEmail(user.getEmail(), otp);
-        }
-        catch (MessagingException e){
+        } catch (MessagingException e) {
             throw new RuntimeException("Unable to send OTP, please Try again :)");
         }
         User u = new User();
@@ -41,6 +41,7 @@ public class UserService {
         u.setPassword(user.getPassword());
         u.setLocation(user.getLocation());
         u.setOtpGeneratedTime(LocalDateTime.now());
+        u.setRole(user.getRole());
 
 
         userRepo.save(u);
@@ -49,9 +50,9 @@ public class UserService {
 
     public String verifyAccount(String email, String otp) {
         User user = userRepo.findByEmail(email).orElseThrow(() ->
-        new RuntimeException("User NOT FOUND with this email : " + email));
+                                                                    new RuntimeException("User NOT FOUND with this email : " + email));
 
-        if(user.getOtp().equals(otp) && Duration.between(user.getOtpGeneratedTime(), LocalDateTime.now()).getSeconds() < (100*60)){
+        if (user.getOtp().equals(otp) && Duration.between(user.getOtpGeneratedTime(), LocalDateTime.now()).getSeconds() < (100 * 60)) {
             user.setActive(true);
             userRepo.save(user);
             return "OTP verification is successfully done!";
@@ -65,10 +66,9 @@ public class UserService {
         User user = userRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User NOT FOUND with this email : " + email));
         String otp = otpUtil.generateOtp();
 
-        try{
+        try {
             emailUtil.sendOtpEmail(user.getEmail(), otp);
-        }
-        catch (MessagingException e){
+        } catch (MessagingException e) {
             throw new RuntimeException("Unable to send OTP, please Try again :)");
         }
 
@@ -80,14 +80,13 @@ public class UserService {
 
     }
 
-    public String login(Login login){
+    public String login(Login login) {
         User user = userRepo.findByEmail(login.getEmail()).orElseThrow(() ->
-                                                                    new RuntimeException("User NOT FOUND with this email : " + login.getEmail()));
+                                                                               new RuntimeException("User NOT FOUND with this email : " + login.getEmail()));
 
-        if(!login.getPassword().equals(user.getPassword())){
+        if (!login.getPassword().equals(user.getPassword())) {
             return "Password is Incorrect!";
-        }
-        else if(!user.isActive()){
+        } else if (!user.isActive()) {
             return "Your account is not verified!";
         }
 
@@ -96,5 +95,32 @@ public class UserService {
 
     public List<User> getAllUser() {
         return userRepo.findAll();
+    }
+
+    public boolean getUser(Long id) {
+        return userRepo.existsById(id);
+    }
+
+    public User getUserById(Long id){
+
+        return userRepo.findById(id).orElseThrow();
+    }
+
+    public User updateUser(Long id, User user) {
+
+        User u = userRepo.findById(id).orElseThrow(() -> new RuntimeException("USER NOT FOUND!"));
+
+//        userRepo.delete(userRepo.findById(id).orElseThrow());
+
+        u.setRole(Role.valueOf(user.getRole().toString()));
+        u.setEmail(user.getEmail());
+        u.setLastName(user.getLastName());
+        u.setFirstName(user.getFirstName());
+        u.setActive(user.isActive());
+        u.setLocation(user.getLocation());
+
+
+        return userRepo.save(u);
+
     }
 }

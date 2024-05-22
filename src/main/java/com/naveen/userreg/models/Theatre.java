@@ -17,7 +17,7 @@ public class Theatre {
     @Column(name = "id")
     private Long id;
     private String name;
-    private String Location;
+    private String location;
     @ElementCollection
     private List<String> amenities;
     private int capacity;
@@ -30,4 +30,7 @@ public class Theatre {
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     private Movie movie;
+
+//    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
+//    private List<Show> shows;
 }

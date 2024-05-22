@@ -1,6 +1,8 @@
 package com.naveen.userreg.services;
 
+import com.naveen.userreg.models.Movie;
 import com.naveen.userreg.models.Theatre;
+import com.naveen.userreg.repos.MoviesRepo;
 import com.naveen.userreg.repos.TheatreRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class TheatreService {
 
     @Autowired
     private TheatreRepo theatreRepo;
+
+    @Autowired
+    private MoviesRepo moviesRepo;
 
     public String addTheatre(Theatre theatre) {
         theatreRepo.save(theatre);
@@ -75,6 +80,25 @@ public class TheatreService {
        }
 
        return resTheatres;
+
+    }
+
+    public List<Theatre> getTheatreByMovieId(Long id) {
+        List<Theatre> theatres = theatreRepo.findAll();
+        List<Theatre> resultTheatres = new ArrayList<>();
+
+        for(Theatre t : theatres){
+            System.out.println(t.getMovie());
+            if(t.getMovie().getId() == id){
+                resultTheatres.add(t);
+            }
+        }
+
+        if(resultTheatres.isEmpty())
+            System.out.println("NO Theatres Found!");
+
+
+        return resultTheatres;
 
     }
 }

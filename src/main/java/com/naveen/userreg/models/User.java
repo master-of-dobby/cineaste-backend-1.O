@@ -1,5 +1,6 @@
 package com.naveen.userreg.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.naveen.userreg.models.AuthModels.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,6 @@ public class User {
     private String email;
     private String password;
     private String location;
-    private String passId;
 //    private boolean isEnabled = false;
     private boolean active;
     private String otp;
@@ -41,6 +41,12 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+
+//    @JoinColumn(name = "pass_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private FilmyPass pass;
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

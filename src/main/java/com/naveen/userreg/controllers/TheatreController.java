@@ -1,5 +1,6 @@
 package com.naveen.userreg.controllers;
 
+import com.naveen.userreg.models.Movie;
 import com.naveen.userreg.models.Theatre;
 import com.naveen.userreg.services.TheatreService;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,18 @@ public class TheatreController {
 
     }
 
+    @GetMapping("/theatres-by-movie/{id}")
+    public ResponseEntity<List<Theatre>> getTheatresList(@PathVariable Long id){
+//        if(!theatreService.existsById(id)) {
+//            System.out.println("Theatre NOT FOUND!");
+//            return ResponseEntity.notFound().build();
+//        }
+        List<Theatre> theatreList = theatreService.getTheatreByMovieId(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(theatreList);
+    }
+
+
     @PutMapping("/theatre/{id}")
     public ResponseEntity<Theatre> updateTheatre(@PathVariable Long id, @RequestBody Theatre theatre) throws ChangeSetPersister.NotFoundException {
         if (!theatreService.existsById(id)) {
@@ -73,5 +86,6 @@ public class TheatreController {
         theatreService.deleteTheatre(id);
         return ResponseEntity.ok().build();
     }
+
 
 }
