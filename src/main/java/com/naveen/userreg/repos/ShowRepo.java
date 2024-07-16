@@ -11,4 +11,6 @@ public interface ShowRepo extends JpaRepository<Show, Long> {
 
     List<Show> findByTheatreId(Long id);
 
+    List<Show> findByTheatreIdAndMovieId(Long theatreId, Long movieId);
+
 }
