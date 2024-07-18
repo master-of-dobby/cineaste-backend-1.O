@@ -3,6 +3,7 @@ package com.naveen.userreg.services;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -31,6 +32,7 @@ public class JacksonConfig {
         mapper.registerModule(new JavaTimeModule());
         mapper.registerModule(localDateTimeSerializerModule());
         mapper.addMixIn(HibernateProxy.class, HibernateProxyMixin.class);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 //        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         return mapper;
     }

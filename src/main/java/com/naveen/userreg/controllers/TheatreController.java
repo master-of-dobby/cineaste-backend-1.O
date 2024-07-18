@@ -34,6 +34,7 @@ public class TheatreController {
     @GetMapping("/theatre/{id}")
     public ResponseEntity<Theatre> getTheatre(@PathVariable Long id) {
         Optional<Theatre> theatreOptional = theatreService.getTheatre(id);
+        System.out.println(theatreOptional.isPresent() + " " + theatreOptional.get().getMovie());
 
         if (theatreOptional.isPresent()) {
             return ResponseEntity.ok(theatreOptional.get());
@@ -62,6 +63,8 @@ public class TheatreController {
 //            return ResponseEntity.notFound().build();
 //        }
         List<Theatre> theatreList = theatreService.getTheatreByMovieId(id);
+
+        System.out.print(theatreList);
 
         return ResponseEntity.status(HttpStatus.OK).body(theatreList);
     }

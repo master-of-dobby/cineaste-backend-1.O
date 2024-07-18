@@ -74,6 +74,7 @@ public class TheatreService {
        List<Theatre> totTheatres = theatreRepo.findAll();
 
        for(Theatre t : totTheatres){
+           System.out.println(t.getId() + "=>" + id);
            if(t.getMovie().getId() == id){
                resTheatres.add(t);
            }
@@ -85,11 +86,14 @@ public class TheatreService {
 
     public List<Theatre> getTheatreByMovieId(Long id) {
         List<Theatre> theatres = theatreRepo.findAll();
+//        System.out.println("actual theatres : " + theatres);
+
         List<Theatre> resultTheatres = new ArrayList<>();
 
         for(Theatre t : theatres){
-            System.out.println(t.getMovie());
-            if(t.getMovie().getId() == id){
+//            System.out.println(t.getMovie());
+//            System.out.println("Given Id " + id + " verdict " + (t.getMovie().getId() == id) + " and values" + t.getMovie().getId() + " " + id);
+            if(t.getMovie().getId().equals(id)){
                 resultTheatres.add(t);
             }
         }

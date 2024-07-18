@@ -48,7 +48,7 @@ public class ShowService {
 
             for (int i = 1; i <= theatre.get().getPlatinumCapacity(); i++) {
 
-                if (seatLimit == 15) {
+                if (seatLimit == 16) {
                     seatLimit = 1;
                     seatAlpha++;
                 }
@@ -61,11 +61,14 @@ public class ShowService {
 
                 seatRepo.save(st);
             }
+
+            seatLimit = 1;
+            seatAlpha++;
 
             // for diamond
             for (int i = 1; i <= theatre.get().getDiamondCapacity(); i++) {
 
-                if (seatLimit == 15) {
+                if (seatLimit == 16) {
                     seatLimit = 1;
                     seatAlpha++;
                 }
@@ -78,11 +81,14 @@ public class ShowService {
 
                 seatRepo.save(st);
             }
+
+            seatLimit = 1;
+            seatAlpha++;
 
             // for gold too
             for (int i = 1; i <= theatre.get().getGoldCapacity(); i++) {
 
-                if (seatLimit == 15) {
+                if (seatLimit == 16) {
                     seatLimit = 1;
                     seatAlpha++;
                 }
@@ -95,6 +101,8 @@ public class ShowService {
 
                 seatRepo.save(st);
             }
+
+//            System.out.println(theatre.get().getPlatinumCapacity() + " " + theatre.get().getDiamondCapacity() + " " + theatre.get().getGoldCapacity());
         }
         else{
             System.out.println("Theatre NOT PRESENT!");
