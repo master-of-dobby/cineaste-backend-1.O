@@ -1,6 +1,7 @@
 package com.naveen.userreg.controllers;
 
 import com.naveen.userreg.models.Seat;
+import com.naveen.userreg.models.SeatStatus;
 import com.naveen.userreg.services.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://cineaste-fe.s3-website.eu-north-1.amazonaws.com"})
 public class SeatController {
 
     private final SeatService seatService;
@@ -34,6 +35,18 @@ public class SeatController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(seat);
+    }
+
+    @PutMapping("/seat/{showId}/{seatNumber}")
+    public ResponseEntity<Seat> setSeatAsBooked(@PathVariable("showId") Long showId, @PathVariable("seatNumber") String seatNumber){
+        Seat requiredSeat = seatService.setSeatAsBooked(showId, seatNumber);
+
+        if(requiredSeat == null){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // Add additional endpoints for seat management, booking, etc.

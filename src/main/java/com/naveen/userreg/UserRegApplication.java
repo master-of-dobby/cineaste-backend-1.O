@@ -1,7 +1,7 @@
 package com.naveen.userreg;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.DeserializationFeature;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,6 @@ public class UserRegApplication {
 		SpringApplication.run(UserRegApplication.class, args);
 
 	}
-
-
 
 //	@Bean
 //	public BCryptPasswordEncoder passwordEncoder(){

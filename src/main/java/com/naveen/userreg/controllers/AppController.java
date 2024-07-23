@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 //@RequestMapping("user")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://cineaste-fe.s3-website.eu-north-1.amazonaws.com"})
 public class AppController {
 
     @Autowired
