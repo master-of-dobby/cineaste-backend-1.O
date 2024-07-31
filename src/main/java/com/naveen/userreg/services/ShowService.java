@@ -134,4 +134,7 @@ public class ShowService {
     }
 
 
+    public Show getShow(Long id) {
+        return showRepo.findById(id).orElseThrow();
+    }
 }

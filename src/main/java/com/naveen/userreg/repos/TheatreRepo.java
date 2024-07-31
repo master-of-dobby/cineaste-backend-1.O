@@ -11,4 +11,5 @@ public interface TheatreRepo extends JpaRepository<Theatre, Long> {
 
     Optional<Theatre> findTheatreByName(String name);
 
+    int deleteByMovieId(Long id);
 }

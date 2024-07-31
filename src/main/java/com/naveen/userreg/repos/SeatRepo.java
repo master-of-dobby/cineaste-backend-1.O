@@ -13,4 +13,5 @@ public interface SeatRepo extends JpaRepository<Seat, Long> {
 
     Seat findByShowIdAndSeatNumber(Long showId, String seatNumber);
 
+    int deleteByShowId(Long id);
 }

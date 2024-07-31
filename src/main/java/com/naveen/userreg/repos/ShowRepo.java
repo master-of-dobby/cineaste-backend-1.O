@@ -13,4 +13,7 @@ public interface ShowRepo extends JpaRepository<Show, Long> {
 
     List<Show> findByTheatreIdAndMovieId(Long theatreId, Long movieId);
 
+    int deleteByMovieId(Long id);
+
+    List<Show> getByMovieId(Long id);
 }

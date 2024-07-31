@@ -48,4 +48,16 @@ public class ShowController {
         }
         return ResponseEntity.ok().body(showDTOs);
     }
+
+    @GetMapping("show/{id}")
+    public ResponseEntity<Show> getShow(@PathVariable(name = "id") Long id){
+        Show savedShow = showService.getShow(id);
+
+        if(savedShow == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(savedShow);
+
+    }
 }
